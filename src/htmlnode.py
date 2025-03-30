@@ -10,6 +10,15 @@ class HTMLNode:
         children: list[Self] = None,
         props: dict[str, str] = None,
     ):
+        if not isinstance(tag, (str, type(None))):
+            raise TypeError("Tag must be a string")
+        if not isinstance(value, (str, type(None))):
+            raise TypeError("Value must be a string")
+        if not isinstance(children, (list, type(None))):
+            raise TypeError("Children must be a list of HTMLNodes")
+        if not isinstance(props, (dict, type(None))):
+            raise TypeError(
+                "Props must be a dictionary of attributes and values")
         self.tag = tag
         self.value = value
         self.children = children
