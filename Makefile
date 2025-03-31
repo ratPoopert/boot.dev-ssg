@@ -4,7 +4,7 @@ build:
 	python src/main.py
 
 test:
-	python -m unittest discover -v -s src
+	@python -m unittest discover -s src
 
 clean:
 	rm -r public/*
