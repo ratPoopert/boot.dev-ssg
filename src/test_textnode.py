@@ -4,12 +4,12 @@ from textnode import TextNode, TextType
 
 
 class TestTextNode(unittest.TestCase):
-    def test_eq(self):
+    def test__eq(self):
         node = TextNode("This is a text node", TextType.BOLD)
         node2 = TextNode("This is a text node", TextType.BOLD)
         self.assertEqual(node, node2)
 
-    def test_neq(self):
+    def test__neq(self):
         control = TextNode("This is a text node", TextType.NORMAL)
         cases = (
             ("This is another text node", TextType.NORMAL),
@@ -21,7 +21,7 @@ class TestTextNode(unittest.TestCase):
         for case in cases:
             self.assertNotEqual(control, TextNode(*case))
 
-    def test_repr(self):
+    def test__repr(self):
         node = TextNode("This is a text node", TextType.NORMAL)
         expected = "TextNode(This is a text node, Normal Text, None)"
         self.assertEqual(expected, repr(node))

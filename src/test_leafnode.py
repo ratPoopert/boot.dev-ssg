@@ -5,23 +5,23 @@ from leafnode import LeafNode
 
 
 class TestLeafNode(unittest.TestCase):
-    def test_is_htmlnode(self):
+    def test__init__is_htmlnode(self):
         node = LeafNode("p", "Hello world.")
         self.assertIsInstance(node, HTMLNode)
 
-    def test_has_no_children(self):
+    def test__init__has_no_children(self):
         node = LeafNode("p", "Hello world.")
         self.assertIsNone(node.children)
 
-    def test_requires_value(self):
+    def test__init__requires_value(self):
         with self.assertRaises(TypeError):
             LeafNode("p")
 
-    def test_requires_tag(self):
+    def test__init__requires_tag(self):
         with self.assertRaises(TypeError):
             LeafNode(value=None)
 
-    def test_to_html(self):
+    def test__to_html(self):
         cases = (
             (
                 LeafNode("p", "Hello world."),

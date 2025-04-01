@@ -5,37 +5,37 @@ from leafnode import LeafNode
 
 
 class TestParentNode(unittest.TestCase):
-    def test_tag_required(self):
+    def test__init__requires_tag(self):
         with self.assertRaises(TypeError):
             ParentNode(children=None)
 
-    def test_children_required(self):
+    def test__init__requires_children(self):
         with self.assertRaises(TypeError):
             ParentNode(tag="p")
 
-    def test_has_no_value(self):
+    def test__init__value_is_none(self):
         node = ParentNode("p", None)
         self.assertIsNone(node.value)
 
-    def test_props_are_optional(self):
+    def test__init__props_are_optional(self):
         node = ParentNode("p", None)
         self.assertIsNone(node.props)
 
-    def test_to_html_requires_tag(self):
+    def test__to_html__requires_tag(self):
         node = ParentNode(None, [])
         with self.assertRaises(ValueError):
             node.to_html()
 
-    def test_to_html_requires_children(self):
+    def test__to_html__requires_children(self):
         node = ParentNode("p", None)
         with self.assertRaises(ValueError):
             node.to_html()
 
-    def test_to_html_returns_string(self):
+    def test__to_html__returns_string(self):
         node = ParentNode("p", [])
         self.assertIsInstance(node.to_html(), str)
 
-    def test_to_html_recurses_over_children(self):
+    def test__to_html__recurses_over_children(self):
         node = ParentNode(
             "p",
             [
