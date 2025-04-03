@@ -6,6 +6,7 @@ from factories import (
     text_node_to_html_node,
     split_text_nodes_by_delimiter,
     extract_markdown_images,
+    extract_markdown_links,
 )
 
 
@@ -155,6 +156,37 @@ class TestFactories(unittest.TestCase):
         expected = [
             ("an image", "image1.png"),
             ("another image", "image2.png"),
+        ]
+        self.assertListEqual(result, expected)
+
+    def test__extract_markdown_links__requires_string(self):
+        for invalid_type in [None, 1234, 123.4, [], {}]:
+            with self.assertRaises(TypeError):
+                extract_markdown_links(invalid_type)
+
+    def test__extract_markdown_links__returns_list_of_tuples(self):
+        text = "This is a [link](www.google.com)"
+        result = extract_markdown_links(text)
+        self.assertIsInstance(result, list)
+        for item in result:
+            self.assertIsInstance(item, tuple)
+
+    def test__extract_markdown_links__captures_link_text(self):
+        text = "This is a [link](www.google.com)"
+        result = extract_markdown_links(text)
+        self.assertEqual("link", result[0][0])
+
+    def test__extract_markdown_links__captures_url(self):
+        text = "This is a [link](www.google.com)"
+        result = extract_markdown_links(text)
+        self.assertEqual("www.google.com", result[0][1])
+
+    def test__extract_markdown_links__captures_multiple_links(self):
+        text = "This has [one link](google.com) and [another link](leidos.com)."
+        result = extract_markdown_links(text)
+        expected = [
+            ("one link", "google.com"),
+            ("another link", "leidos.com"),
         ]
         self.assertListEqual(result, expected)
 
