@@ -1,3 +1,5 @@
+import re
+
 from htmlnode import HTMLNode
 from leafnode import LeafNode
 from textnode import TextNode, TextType
@@ -62,3 +64,11 @@ def split_text_nodes_by_delimiter(
         textnodes,
         [],
     ))
+
+
+def extract_markdown_images(text: str) -> list[tuple[str, str]]:
+    if not isinstance(text, str):
+        raise TypeError("Text must be a string.")
+    regexpr = r"!\[([^\[\]]*)\]\(([^\(\)]*)\)"
+    result = re.findall(regexpr, text)
+    return result

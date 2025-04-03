@@ -5,6 +5,7 @@ from leafnode import LeafNode
 from factories import (
     text_node_to_html_node,
     split_text_nodes_by_delimiter,
+    extract_markdown_images,
 )
 
 
@@ -126,6 +127,36 @@ class TestFactories(unittest.TestCase):
                 split_text_nodes_by_delimiter(nodes, d, text_type),
                 expected
             )
+
+    def test__extract_markdown_images__takes_string(self):
+        for invalid_type in [None, 1234, [], {}]:
+            with self.assertRaises(TypeError):
+                extract_markdown_images(invalid_type)
+
+    def test__extract_markdown_images__returns_list_of_tuples(self):
+        result = extract_markdown_images("This has an ![image](image.png)")
+        self.assertIsInstance(result, list)
+        for item in result:
+            self.assertIsInstance(item, tuple)
+
+    def test__extract_markdown_images__captures_alt_text(self):
+        text = "This has an ![image](image.png)"
+        result = extract_markdown_images(text)
+        self.assertEqual("image", result[0][0])
+
+    def test__extract_markdown_images__captures_image_url(self):
+        text = "This has an ![image](image.png)"
+        result = extract_markdown_images(text)
+        self.assertEqual("image.png", result[0][1])
+
+    def test__extract_markdown_images__captures_multiple_images(self):
+        text = "This has ![an image](image1.png) and ![another image](image2.png)."
+        result = extract_markdown_images(text)
+        expected = [
+            ("an image", "image1.png"),
+            ("another image", "image2.png"),
+        ]
+        self.assertListEqual(result, expected)
 
 
 if __name__ == "__main__":
