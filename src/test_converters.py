@@ -4,6 +4,7 @@ from textnode import TextType, TextNode
 from leafnode import LeafNode
 from converters import (
     text_node_to_html_node,
+    text_to_textnodes,
 )
 
 
@@ -66,6 +67,34 @@ class TestConverters(unittest.TestCase):
                          text_node.url)
         self.assertEqual(html_node.props["alt"],
                          text_node.text)
+
+    def test_text_to_textnodes(self):
+        for invalid_input in [1234, 123.4, [], {}]:
+            with self.assertRaises(TypeError):
+                text_to_textnodes(invalid_input)
+        text = " ".join([
+            "Hello world!",
+            "This has **bold text**.",
+            "This has _italic text_.",
+            "This has `some code`.",
+            "This has ![an image](image.png).",
+            "This has [a link](google.com).",
+        ])
+        result = text_to_textnodes(text)
+        expected = [
+            TextNode("Hello world! This has ", TextType.NORMAL),
+            TextNode("bold text", TextType.BOLD),
+            TextNode(". This has ", TextType.NORMAL),
+            TextNode("italic text", TextType.ITALIC),
+            TextNode(". This has ", TextType.NORMAL),
+            TextNode("some code", TextType.CODE),
+            TextNode(". This has ", TextType.NORMAL),
+            TextNode("an image", TextType.IMAGE, "image.png"),
+            TextNode(". This has ", TextType.NORMAL),
+            TextNode("a link", TextType.LINK, "google.com"),
+            TextNode(".", TextType.NORMAL),
+        ]
+        self.assertListEqual(result, expected)
 
 
 if __name__ == "__main__":
