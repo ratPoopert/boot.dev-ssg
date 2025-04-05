@@ -1,7 +1,9 @@
 serve: build
 
-build:
-	python src/main.py
+build: clean static-files
+
+static-files:
+	cd static; cp -r ./* ../public
 
 test:
 	@./test.sh
@@ -9,4 +11,4 @@ test:
 clean:
 	rm -r public/*
 
-.PHONY: serve build test clean
+.PHONY: serve build static-files test clean

@@ -1,1 +1,1 @@
-python src/main.py
+make build
