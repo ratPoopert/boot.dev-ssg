@@ -1,6 +1,10 @@
 import unittest
 
-from ssg.extractors import extract_markdown_images, extract_markdown_links
+from ssg.extractors import (
+    extract_markdown_images,
+    extract_markdown_links,
+    extract_title,
+)
 
 
 class TestExtractors(unittest.TestCase):
@@ -65,6 +69,23 @@ class TestExtractors(unittest.TestCase):
             ("another link", "leidos.com"),
         ]
         self.assertListEqual(result, expected)
+
+    def test_extract_title(self):
+        invalid_types = [1234, 123.4, [], {}, None]
+        for t in invalid_types:
+            with self.assertRaises(TypeError):
+                extract_title(t)
+
+        invalid_values = ["Has no heading", "# This has\n\n# Two headings"]
+        for v in invalid_values:
+            with self.assertRaises(ValueError):
+                extract_title(v)
+
+        for markdown, expected in (
+            ("# Level 1 Heading", "Level 1 Heading"),
+            ("# Document Title\n\nFirst paragraph", "Document Title"),
+        ):
+            self.assertEqual(extract_title(markdown), expected)
 
 
 if __name__ == "__main__":
