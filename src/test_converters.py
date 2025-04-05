@@ -6,7 +6,9 @@ from converters import (
     text_node_to_html_node,
     text_to_textnodes,
     markdown_to_blocks,
+    block_to_block_type,
 )
+from blocks import BlockType
 
 
 class TestConverters(unittest.TestCase):
@@ -119,6 +121,29 @@ This is a second sentence in the paragraph.
              "\nThis is a second sentence in the paragraph."),
         ]
         self.assertListEqual(result, expected)
+
+    def test_block_to_block_type(self):
+        with self.assertRaises(TypeError):
+            block_to_block_type(None)
+
+        cases = (
+            (
+                "This is a paragraph.\nThere's nothing special about it.",
+                BlockType.PARAGRAPH,
+            ),
+            ("#Not a heading", BlockType.PARAGRAPH),
+            ("# Heading 1", BlockType.HEADING),
+            ("###### Heading 6", BlockType.HEADING),
+            ("####### Too many levels", BlockType.PARAGRAPH),
+            ("```\nSome code\n```", BlockType.CODE),
+            ("> This\n> is a\n> blockquote", BlockType.QUOTE),
+            ("> This is\nnot a blockquote", BlockType.PARAGRAPH),
+            ("- List item 1\n- List item 2", BlockType.UNORDERED_LIST),
+            ("1. List item 1\n2. List item 2", BlockType.ORDERED_LIST),
+            ("2. List item 1\n1. List item 2", BlockType.PARAGRAPH),
+        )
+        for block, expected in cases:
+            self.assertEqual(block_to_block_type(block), expected)
 
 
 if __name__ == "__main__":

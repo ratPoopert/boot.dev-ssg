@@ -5,6 +5,9 @@ from splitters import (
     split_nodes_image,
     split_nodes_link,
 )
+from blocks import BlockType
+import re
+from functools import reduce
 
 
 def text_node_to_html_node(textnode: TextNode) -> LeafNode:
@@ -57,3 +60,38 @@ def markdown_to_blocks(markdown: str) -> list[TextNode]:
     stripped = map(lambda s: s.strip(), split)
     filtered = filter(lambda s: s != "", stripped)
     return list(filtered)
+
+
+def block_to_block_type(block: str) -> BlockType:
+    if not isinstance(block, str):
+        raise TypeError("Block must be a string.")
+
+    if re.match(r"^#{1,6} ", block):
+        return BlockType.HEADING
+    if block.startswith("```") and block.endswith("```"):
+        return BlockType.CODE
+    if _all_lines_start_with("> ", block):
+        return BlockType.QUOTE
+    if _all_lines_start_with("- ", block):
+        return BlockType.UNORDERED_LIST
+    if _is_ordered_list(block):
+        return BlockType.ORDERED_LIST
+
+    return BlockType.PARAGRAPH
+
+
+def _is_ordered_list(block: str):
+    if not block.startswith("1. "):
+        return False
+    lines = block.split("\n")
+    for i in range(0, len(lines)):
+        line = lines[i]
+        if not line.startswith(f"{i + 1}. "):
+            return False
+    return True
+
+
+def _all_lines_start_with(prefix: str, block: str):
+    lines = block.split("\n")
+    matches = list(filter(lambda line: line.startswith(prefix), lines))
+    return len(lines) == len(matches)
