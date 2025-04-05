@@ -48,3 +48,12 @@ def text_to_textnodes(text: str) -> list[TextNode]:
                                                  "`",
                                                  TextType.CODE)
     return extract_code
+
+
+def markdown_to_blocks(markdown: str) -> list[TextNode]:
+    if not isinstance(markdown, str):
+        raise TypeError("markdown must be a string.")
+    split = markdown.split("\n\n")
+    stripped = map(lambda s: s.strip(), split)
+    filtered = filter(lambda s: s != "", stripped)
+    return list(filtered)

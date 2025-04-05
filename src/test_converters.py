@@ -5,6 +5,7 @@ from leafnode import LeafNode
 from converters import (
     text_node_to_html_node,
     text_to_textnodes,
+    markdown_to_blocks,
 )
 
 
@@ -93,6 +94,29 @@ class TestConverters(unittest.TestCase):
             TextNode(". This has ", TextType.NORMAL),
             TextNode("a link", TextType.LINK, "google.com"),
             TextNode(".", TextType.NORMAL),
+        ]
+        self.assertListEqual(result, expected)
+
+    def test_markdown_to_blocks(self):
+        with self.assertRaises(TypeError):
+            markdown_to_blocks(1234)
+
+        markdown = """
+This is just a block with a single sentence.
+
+This is a second block.
+
+
+
+There were extra lines between this block and the previous one.
+This is a second sentence in the paragraph.
+"""
+        result = markdown_to_blocks(markdown)
+        expected = [
+            "This is just a block with a single sentence.",
+            "This is a second block.",
+            ("There were extra lines between this block and the previous one."
+             "\nThis is a second sentence in the paragraph."),
         ]
         self.assertListEqual(result, expected)
 
