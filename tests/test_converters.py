@@ -1,14 +1,13 @@
 import unittest
 
-from ssg.textnode import TextType, TextNode
-from ssg.leafnode import LeafNode
+from ssg.nodes import TextNode, LeafNode
 from ssg.converters import (
     text_node_to_html_node,
     text_to_textnodes,
     markdown_to_blocks,
     block_to_block_type,
 )
-from ssg.blocks import BlockType
+from ssg.enums import BlockType, TextType
 
 
 class TestConverters(unittest.TestCase):

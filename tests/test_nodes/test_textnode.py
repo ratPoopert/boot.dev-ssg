@@ -1,6 +1,7 @@
 import unittest
 
-from ssg.textnode import TextNode, TextType
+from ssg.nodes import TextNode
+from ssg.enums import TextType
 
 
 class TestTextNode(unittest.TestCase):

@@ -1,13 +1,12 @@
-from ssg.leafnode import LeafNode
-from ssg.textnode import TextNode, TextType
-from ssg.splitters import (
+import re
+
+from .nodes import LeafNode, TextNode
+from .enums import BlockType, TextType
+from .splitters import (
     split_text_nodes_by_delimiter,
     split_nodes_image,
     split_nodes_link,
 )
-from ssg.blocks import BlockType
-import re
-from functools import reduce
 
 
 def text_node_to_html_node(textnode: TextNode) -> LeafNode:

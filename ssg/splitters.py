@@ -1,7 +1,8 @@
 from functools import reduce
 
-from ssg.extractors import extract_markdown_images, extract_markdown_links
-from ssg.textnode import TextNode, TextType
+from .enums import TextType
+from .extractors import extract_markdown_images, extract_markdown_links
+from .nodes import TextNode
 
 
 def split_text_nodes_by_delimiter(

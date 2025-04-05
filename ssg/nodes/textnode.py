@@ -1,13 +1,4 @@
-from enum import Enum
-
-
-class TextType(Enum):
-    NORMAL = "Normal Text"
-    BOLD = "Bold Text"
-    ITALIC = "Italic Text"
-    CODE = "Inline Code"
-    LINK = "Link"
-    IMAGE = "Inline Image"
+from ssg.enums import TextType
 
 
 class TextNode:
