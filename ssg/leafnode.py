@@ -1,4 +1,4 @@
-from htmlnode import HTMLNode
+from ssg.htmlnode import HTMLNode
 
 
 class LeafNode(HTMLNode):

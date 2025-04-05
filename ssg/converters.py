@@ -1,11 +1,11 @@
-from leafnode import LeafNode
-from textnode import TextNode, TextType
-from splitters import (
+from ssg.leafnode import LeafNode
+from ssg.textnode import TextNode, TextType
+from ssg.splitters import (
     split_text_nodes_by_delimiter,
     split_nodes_image,
     split_nodes_link,
 )
-from blocks import BlockType
+from ssg.blocks import BlockType
 import re
 from functools import reduce
 

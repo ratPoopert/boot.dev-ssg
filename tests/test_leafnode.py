@@ -1,7 +1,7 @@
 import unittest
 
-from htmlnode import HTMLNode
-from leafnode import LeafNode
+from ssg.htmlnode import HTMLNode
+from ssg.leafnode import LeafNode
 
 
 class TestLeafNode(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 
-from extractors import extract_markdown_images, extract_markdown_links
+from ssg.extractors import extract_markdown_images, extract_markdown_links
 
 
 class TestExtractors(unittest.TestCase):

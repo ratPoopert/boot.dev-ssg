@@ -1,7 +1,7 @@
 import unittest
 
-from textnode import TextNode, TextType
-from splitters import (
+from ssg.textnode import TextNode, TextType
+from ssg.splitters import (
     split_text_nodes_by_delimiter,
     split_nodes_image,
     split_nodes_link,
