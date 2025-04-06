@@ -1,1 +1,1 @@
-make build
+make serve
